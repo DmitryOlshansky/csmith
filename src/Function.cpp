@@ -508,7 +508,6 @@ Function::OutputFormalParamList(std::ostream &out)
 {
 	if (param.size() == 0) {
 		assert(Type::void_type);
-		Type::void_type->Output(out);
 	} else {
 		param_first = true;
 		for_each(param.begin(),
@@ -527,13 +526,7 @@ Function::OutputHeader(std::ostream &out)
 		assert(return_type->eType != eStruct);
 	if (!CGOptions::return_unions() && return_type)
 		assert(return_type->eType != eUnion);
-	if (is_inlined)
-		out << "inline ";
-	// force functions to be static if necessary
-	if (CGOptions::force_globals_static()) {
-		out << "static ";
-	}
-	rv->qfer.output_qualified_type(return_type, out);
+	rv->qfer.output_qualified_type_var(return_type, out);
 	out << " " << get_prefixed_name(name) << "(";
 	OutputFormalParamList( out );
 	out << ")";

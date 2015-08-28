@@ -463,7 +463,7 @@ ArrayVariable::build_init_recursive(size_t dimen, const vector<string>& init_str
 {
 	assert (dimen < get_dimension());
 	static unsigned seed = 0xABCDEF;
-	string ret = "{";
+	string ret = "[";
 	for (size_t i=0; i<sizes[dimen]; i++) {
 		if (dimen == sizes.size() - 1) {
 			// use magic number to choose an initial value
@@ -475,7 +475,7 @@ ArrayVariable::build_init_recursive(size_t dimen, const vector<string>& init_str
 		 }
 		 if (i != sizes[dimen]-1) ret += ",";
 	}
-	ret += "}";
+	ret += "]";
 	return ret;
 }
 
@@ -490,7 +490,7 @@ ArrayVariable::build_initializer_str(const vector<string>& init_strings) const
 
 	for (int i=sizes.size()-1; i>=0; i--) {
 		size_t len = sizes[i];
-		str_dimen = "{";
+		str_dimen = "[";
 		for (size_t j=0; j<len; j++) {
 			// for last dimension, use magic number to choose an initial value
 			if (i == ((int)sizes.size()) - 1) {
@@ -501,7 +501,7 @@ ArrayVariable::build_initializer_str(const vector<string>& init_strings) const
 			}
 			str_dimen += ((j<len-1) ? ", " : "");
 		}
-		str_dimen += "}";
+		str_dimen += "]";
 		str = str_dimen;
 	}
 	return str;
@@ -537,10 +537,10 @@ ArrayVariable::OutputDef(std::ostream &out, int indent) const
 
 			// print type, name, and dimensions
 			output_qualified_type(out);
-			out << get_actual_name();
 			for (i=0; i<sizes.size(); i++) {
 				out << "[" << sizes[i] << "]";
 			}
+			out << get_actual_name();
 			out << " = " << build_initializer_str(init_strings) << ";";
 			outputln(out);
 		}
@@ -549,16 +549,12 @@ ArrayVariable::OutputDef(std::ostream &out, int indent) const
 
 void ArrayVariable::OutputDecl(std::ostream &out) const
 {
-	// force global variables to be static if necessary
-	if (CGOptions::force_globals_static() && is_global()) {
-		out << "static ";
-	}
 	output_qualified_type(out);
-	out << get_actual_name();
 	size_t i;
 	for (i=0; i<sizes.size(); i++) {
 		out << "[" << sizes[i] << "]";
 	}
+	out << get_actual_name();
 }
 
 // --------------------------------------------------------------

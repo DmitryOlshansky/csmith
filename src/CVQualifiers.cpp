@@ -570,16 +570,10 @@ CVQualifiers::output_qualified_type(const Type* t, std::ostream &out) const
 			out << "*";
 		}
 		if (is_consts[i]) {
-			if (!CGOptions::consts())
 				assert(0);
-			if (i > 0) out << " ";
-			out << "const ";
 		}
 		if (is_volatiles[i]) {
-			if (!CGOptions::volatiles())
 				assert(0);
-			if (i > 0) out << " ";
-			out << "volatile ";
 		}
 		if (i==0) {
 			base->Output(out);
@@ -587,6 +581,31 @@ CVQualifiers::output_qualified_type(const Type* t, std::ostream &out) const
 		}
 	}
 }
+
+void
+CVQualifiers::output_qualified_type_var(const Type* t, std::ostream &out) const
+{
+	assert(t);
+	assert(sanity_check(t));
+	size_t i;
+	const Type* base = t->get_base_type();
+	for (i=0; i<is_consts.size(); i++) {
+		if (i>0) {
+			out << "*";
+		}
+		if (is_consts[i]) {
+			assert(0);
+		}
+		if (is_volatiles[i]) {
+			assert(0);
+		}
+		if (i==0) {
+			base->OutputShort(out);
+			out << " ";
+		}
+	}
+}
+
 
 void
 CVQualifiers::output_qualified_type_with_deputy_annotation(const Type* t, std::ostream &out, const vector<string>& annotations) const

@@ -150,7 +150,7 @@ static string
 GenerateRandomLongLongConstant(void)
 {
 	// Long constant - Max 8 Hex digits on 32-bit platforms
-	string val = "0x" + RandomHexDigits( 16 ) + "LL";
+	string val = "0x" + RandomHexDigits( 16 ) + "L";
 	return val;
 }
 
@@ -247,7 +247,9 @@ GenerateRandomConstantInRange(const Type* type, int bound)
 static string
 GenerateRandomStructConstant(const Type* type)
 {
-	string value = "{";
+	ostringstream os;
+	type->OutputShort(os);
+	string value = os.str() + "(";
 	size_t i;
 	assert(type->eType == eStruct);
 	assert(type->fields.size() == type->bitfields_length_.size());
@@ -274,7 +276,7 @@ GenerateRandomStructConstant(const Type* type)
         		value += v;
 		}
 	}
-	value += "}";
+	value += ")";
 	return value;
 }
 
@@ -285,10 +287,12 @@ GenerateRandomStructConstant(const Type* type)
 static string
 GenerateRandomUnionConstant(const Type* type)
 {
-	string value = "{";
+	ostringstream os;
+	type->OutputShort(os);
+	string value = os.str() + "(";
 	assert(type->eType == eUnion && type->fields.size() == type->bitfields_length_.size());
 	value += GenerateRandomConstant(type->fields[0]);
-	value += "}";
+	value += ")";
 	return value;
 }
 
@@ -532,11 +536,7 @@ Constant::Output(std::ostream &out) const
 	if (!value.empty() && value[0] == '-') {
 		out << "(" << value << ")";
 	} else if (type->eType == ePointer && equals(0)){
-		if (CGOptions::lang_cpp()) {
-			out << "NULL";
-		} else {
-		out << "(void*)" << value;
-		}
+		out << "null";
 	} else {
 		out << value;
 	}

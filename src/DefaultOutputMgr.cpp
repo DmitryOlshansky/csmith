@@ -147,8 +147,6 @@ DefaultOutputMgr::OutputAllHeaders()
 	for (j = outs.begin(); j != outs.end(); ++j) {
 		ofstream *out = (*j);
 		string prefix = "extern ";
-		// OutputGlobalVariablesDecls(*out, prefix);
-		OutputForwardDeclarations(*out);
 		*out << std::endl;
 	}
 }
@@ -208,7 +206,6 @@ DefaultOutputMgr::Output()
 	else {
 		OutputStructUnionDeclarations(out);
 		OutputGlobalVariables(out);
-		OutputForwardDeclarations(out);
 		OutputFunctions(out);
 	}
 	if (CGOptions::step_hash_by_stmt()) {

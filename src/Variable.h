@@ -135,6 +135,7 @@ public:
 	virtual void OutputDef(std::ostream &out, int indent) const;
 	virtual void OutputDecl(std::ostream &) const;
 	virtual void output_qualified_type(std::ostream &out) const;
+	virtual void output_qualified_type_var(std::ostream &out) const;
 	virtual void OutputLowerBound(std::ostream &) const;
 	virtual void OutputUpperBound(std::ostream &) const;
 

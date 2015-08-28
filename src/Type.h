@@ -255,6 +255,7 @@ public:
 	bool match(const Type* t, enum eMatchType mt) const;
 	unsigned long SizeInBytes(void) const;
 	void Output(std::ostream &) const;
+	void OutputShort(std::ostream &) const;
 	std::string printf_directive(void) const;
 	static Type* find_pointer_type(const Type* t, bool add);
 	static Type* find_type(const Type* t);

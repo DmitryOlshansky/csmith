@@ -178,11 +178,8 @@ Expression::make_random(CGContext &cg_context, const Type* type, const CVQualifi
 		if (no_const || type->eType == eStruct || type->eType == eUnion) {
 			filter.add(eConstant);
 		}
-		// can't assign to constant struct/unions. on the other hand, assign to a volatile
-		// struct/union cause too much trouble for effect analysis, disable it for now
-		if (type->is_const_struct_union() || type->is_volatile_struct_union()) {
-			filter.add(eAssignment);
-		}
+		// D disallows assignements in 'if' statement
+		filter.add(eAssignment);
 		if (cg_context.expr_depth + 2 > CGOptions::max_expr_depth()) {
 			filter.add(eFunction).add(eAssignment).add(eCommaExpr);
 		}

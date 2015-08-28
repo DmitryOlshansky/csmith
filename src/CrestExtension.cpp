@@ -86,7 +86,7 @@ CrestExtension::output_symbolics(ostream &out)
 void
 CrestExtension::OutputInit(std::ostream &out)
 {
-	out << "int main(void)" << endl;
+	out << "int main()" << endl;
 	out << "{" << endl;
 	AbsExtension::default_output_definitions(out, values_, false);
 	output_symbolics(out);

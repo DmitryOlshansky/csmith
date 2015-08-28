@@ -109,7 +109,7 @@ ReducerOutputMgr::OutputHeader(int argc, char *argv[], unsigned long /*seed*/)
 		}
 	}
 	out << endl;
-	out << "#include \"csmith.h\"" << endl << endl;
+	out << "import csmith;" << endl << endl;
 }
 
 void

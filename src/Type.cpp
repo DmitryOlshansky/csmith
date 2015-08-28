@@ -1672,6 +1672,27 @@ Type::Output(std::ostream &out) const
 }
 
 void
+Type::OutputShort(std::ostream &out) const
+{
+	switch (eType) {
+	case eSimple:
+		if (this->simple_type == eVoid) {
+			out << "void";
+		} else if (this->simple_type == eFloat) {
+		        out << "float";
+		} else {
+			out << (is_signed() ? "int" : "uint");
+			out << (SizeInBytes() * 8);
+			out << "_t";
+		} 
+		break;
+	case ePointer:   ptr_type->Output( out ); out << "*"; break;
+	case eUnion:     out << "U" << sid; break;
+	case eStruct:    out << "S" << sid; break;
+	}
+}
+
+void
 Type::get_type_sizeof_string(std::string &s) const
 {
 	ostringstream ss;
@@ -1699,15 +1720,14 @@ void OutputStructUnion(Type* type, std::ostream &out)
         }
         // output myself
         if (type->packed_) {
-            if (!CGOptions::ccomp()) {
-                out << "#pragma pack(push)";
-                really_outputln(out);
-            }
-            out << "#pragma pack(1)";
+            out << "align(1)";
             really_outputln(out);
         }
         type->Output(out);
         out << " {";
+        if (type->packed_){
+        	out << "\n" << "align(1):" << '\n';
+        }
 		really_outputln(out);
 
 		assert(type->fields.size() == type->qfers_.size());
@@ -1717,39 +1737,16 @@ void OutputStructUnion(Type* type, std::ostream &out)
 			const Type *field = type->fields[i];
 			bool is_bitfield = type->is_bitfield(i);
             if (is_bitfield) {
-				assert(field->eType == eSimple);
-				type->qfers_[i].OutputFirstQuals(out);
-				if (field->simple_type == eInt)
-					out << "signed";
-				else if (field->simple_type == eUInt)
-					out << "unsigned";
-				else
 					assert(0);
-				int length = type->bitfields_length_[i];
-				assert(length >= 0);
-				if (length == 0)
-					out << " : ";
-				else
-					out << " f" << j++ << " : ";
-				out << length << ";";
 			}
 			else {
-				type->qfers_[i].output_qualified_type(field, out);
+				type->qfers_[i].output_qualified_type_var(field, out);
 				out << " f" << j++ << ";";
 			}
 			really_outputln(out);
         }
-        out << "};";
+        out << "}";
 		really_outputln(out);
-        if (type->packed_) {
-		if (CGOptions::ccomp()) {
-			out << "#pragma pack()";
-		}
-		else {
-			out << "#pragma pack(pop)";
-		}
-		really_outputln(out);
-        }
         type->printed = true;
 		really_outputln(out);
     }

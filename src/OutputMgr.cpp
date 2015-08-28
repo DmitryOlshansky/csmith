@@ -50,7 +50,7 @@ const char *OutputMgr::hash_func_name = "csmith_compute_hash";
 const char *OutputMgr::step_hash_func_name = "step_hash";
 
 static const char runtime_include[] = "\
-#include \"csmith.h\"\n\
+import csmith;\n\
 ";
 
 static const char volatile_include[] = "\
@@ -124,7 +124,7 @@ OutputMgr::OutputMain(std::ostream &out)
 		// set up a global variable that controls if we print the hash value after computing it for each global
 		out << "    int print_hash_value = 0;" << endl;
 		if (CGOptions::accept_argc()) {
-			out << "    if (argc == 2 && strcmp(argv[1], \"1\") == 0) print_hash_value = 1;" << endl;
+			out << "    if (argv.length == 2 && argv[1] == \"1\") print_hash_value = 1;" << endl;
 		}
 
 		out << "    platform_main_begin();" << endl;

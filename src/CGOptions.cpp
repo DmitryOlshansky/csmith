@@ -223,7 +223,7 @@ CGOptions::set_default_settings(void)
 	max_indirect_level(CGOPTIONS_DEFAULT_MAX_INDIRECT_LEVEL);
 	output_file(CGOPTIONS_DEFAULT_OUTPUT_FILE);
 	interested_facts(ePointTo | eUnionWrite);
-	allow_const_volatile(true);
+	allow_const_volatile(false);
 	avoid_signed_overflow(true);
 	CGOptions::paranoid(false);
 	CGOptions::quiet(false);
@@ -242,11 +242,11 @@ CGOptions::set_default_settings(void)
 	coverage_test(false);
 	coverage_test_size(CGOPTIONS_DEFAULT_COVERAGE_TEST_SIZE);
 	packed_struct(true);
-	bitfields(true);
+	bitfields(false);
 	prefix_name(false);
 	sequence_name_prefix(false);
 	compatible_check(false);
-	compound_assignment(true);
+	compound_assignment(false);
 	math64(true);
 	inline_function(false);
 	math_notmp(false);
@@ -263,10 +263,10 @@ CGOptions::set_default_settings(void)
 	arg_structs(true);
 	return_unions(true);
 	arg_unions(true);
-	volatiles(true);
-	volatile_pointers(true);
-	const_pointers(true);
-	consts(true);
+	volatiles(false);
+	volatile_pointers(false);
+	const_pointers(false);
+	consts(false);
 	dangling_global_ptrs(true);
 	divs(true);
 	muls(true);

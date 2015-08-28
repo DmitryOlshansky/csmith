@@ -138,10 +138,10 @@ ExtensionMgr::OutputInit(std::ostream &out)
 {
 	if (ExtensionMgr::extension_ == NULL) {
 		if (CGOptions::accept_argc()) {
-			out << "int main (int argc, char* argv[])" << endl;
+			out << "int main (string[] argv)" << endl;
 		}
 		else {
-			out << "int main (void)" << endl;
+			out << "int main ()" << endl;
 		}
 		out << "{" << endl;
 	}

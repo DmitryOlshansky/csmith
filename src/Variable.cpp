@@ -774,10 +774,6 @@ void
 Variable::OutputDef(std::ostream &out, int indent) const
 {
 	output_tab(out, indent);
-	// force global variables to be static if necessary
-	if (CGOptions::force_globals_static() && is_global()) {
-		out << "static ";
-	}
 	output_qualified_type(out);
 	out << get_actual_name() << " = ";
 	assert(init);
@@ -793,10 +789,6 @@ Variable::OutputDef(std::ostream &out, int indent) const
 
 void Variable::OutputDecl(std::ostream &out) const
 {
-	// force global variables to be static if necessary
-	if (CGOptions::force_globals_static() && is_global()) {
-		out << "static ";
-	}
 	output_qualified_type(out);
 	out << get_actual_name();
 }
@@ -856,9 +848,23 @@ Variable::output_qualified_type(std::ostream &out) const
 		qfer.output_qualified_type_with_deputy_annotation(type, out, annotations);
 	}
 	else {
-		qfer.output_qualified_type(type, out);
+		qfer.output_qualified_type_var(type, out);
 	}
 }
+
+// --------------------------------------------------------------
+void
+Variable::output_qualified_type_var(std::ostream &out) const
+{
+	if (type->eType == ePointer && CGOptions::deputy()) {
+		vector<string> annotations = deputy_annotation();
+		qfer.output_qualified_type_with_deputy_annotation(type, out, annotations);
+	}
+	else {
+		qfer.output_qualified_type_var(type, out);
+	}
+}
+
 
 // --------------------------------------------------------------
 void
