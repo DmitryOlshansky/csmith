@@ -366,7 +366,7 @@ FunctionInvocationBinary::Output(std::ostream &out) const
 		default:
 			// explicit type casting for op1
 			if (need_cast) {
-				out << "(";
+				out << "cast(";
 				op_flags->OutputSize(out);
 				out << ")";
 			}

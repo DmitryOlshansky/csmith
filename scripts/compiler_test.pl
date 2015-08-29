@@ -36,19 +36,19 @@ use File::stat;
 #################### user-configurable stuff ####################
 
 # programs shorter than this many bytes are too boring to test
-my $MIN_PROGRAM_SIZE = 8000;
+my $MIN_PROGRAM_SIZE = 4000;
 
 # kill Csmith after this many seconds
-my $CSMITH_TIMEOUT = 90; 
+my $CSMITH_TIMEOUT = 60; 
 
 # kill a compiler after this many seconds
-my $COMPILER_TIMEOUT = 120;
+my $COMPILER_TIMEOUT = 70;
 
 # kill a compiler's output after this many seconds
 my $PROG_TIMEOUT = 8;
 
 # extra options here
-my $CSMITH_USER_OPTIONS = " --bitfields --packed-struct"; 
+my $CSMITH_USER_OPTIONS = " "; 
 
 ################# end user-configurable stuff ###################
 #################################################################
@@ -136,13 +136,9 @@ sub runit ($$$) {
 #                     4: executable hangs
 sub compile_and_run($$$$) {
     my ($compiler, $src_file, $exe, $out) = @_; 
-    my $command = "$compiler $src_file $COMPILE_OPTIONS $HEADER -o $exe";  
+    my $command = "$compiler $src_file $COMPILE_OPTIONS $HEADER -of$exe";  
 
     my @a = split(" ", $compiler);
-    # special treatment of MS compiler: convert header path to unix-style
-    if ($a[0] =~ /cl$/) {
-        $command = "$compiler $src_file $COMPILE_OPTIONS $CYGWIN_HEADER -o $exe"; 
-    }  
 
     # compile random program
     my ($res, $exit_value) = runit($command, $COMPILER_TIMEOUT,  "compiler.out"); 
@@ -222,7 +218,7 @@ sub evaluate_program ($) {
             }
         }
         write_bug_desc_to_file($test_file, 
-	  "please refer to http://embed.cs.utah.edu/csmith/using.html on how to report a bug");
+	  "please refer to http://embed.ds.utah.edu/csmith/using.html on how to report a bug");
     }
     system "rm -f out*.log a.out* test*.obj compiler.out csmith.out";
     return $interesting;
@@ -230,7 +226,7 @@ sub evaluate_program ($) {
 
 sub test_one ($) {
     (my $n) = @_;
-    my $cfile = "test$n.c";
+    my $cfile = "test$n.d";
     my $seed;
     my $filesize;
 
@@ -247,7 +243,7 @@ sub test_one ($) {
         if ($res == 0) {
 	    print "CSMITH BUG FOUND: number $csmith_bug\n";
 	    $csmith_bug++;
-	    system "cp $cfile csmith_bug_${csmith_bug}.c"; 
+	    system "cp $cfile csmith_bug_${csmith_bug}.d"; 
 	    next; 
         }
         else { 
@@ -267,12 +263,12 @@ sub test_one ($) {
         if ($ret == 1) {
             print "COMPILER CRASH ERROR FOUND: number $crash_bug\n";
             $crash_bug++;
-            system "cp $cfile crash${crash_bug}.c";
+            system "cp $cfile crash${crash_bug}.d";
         }
         if ($ret == 2 || $ret == -2) {
             print "LIKELY WRONG CODE ERROR FOUND: number $wrongcode_bug\n";
             $wrongcode_bug++;
-            system "cp $cfile wrong${wrongcode_bug}.c";
+            system "cp $cfile wrong${wrongcode_bug}.d";
         } 
     } else { 
         print "BAD PROGRAM: doesn't count towards goal.\n";
@@ -324,8 +320,8 @@ open INF, "<$infile" or die "Cannot read configuration file ${infile}.\n";
 while (my $line = <INF>) {
     chomp $line;
     if ($line && !($line  =~ /^\s*#/)) { 
-	my $res = system ("echo \"int main() { return 0;}\" > foo.c ; $line foo.c > /dev/null 2>&1"); 
-	unlink "foo.c",  "a.out";
+	my $res = system ("echo \"int main() { return 0;}\" > foo.d ; $line -ofa.out foo.d > /dev/null 2>&1"); 
+	unlink "foo.d",  "a.out";
 	die "cannot execute compiler $line\n" if ($res); 
 	push @COMPILERS, $line;
     }  

@@ -774,7 +774,10 @@ void
 Variable::OutputDef(std::ostream &out, int indent) const
 {
 	output_tab(out, indent);
-	output_qualified_type(out);
+	if (is_global()) {
+		out << "__gshared ";
+	}
+	output_qualified_type_var(out);
 	out << get_actual_name() << " = ";
 	assert(init);
 	init->Output(out);
@@ -789,6 +792,9 @@ Variable::OutputDef(std::ostream &out, int indent) const
 
 void Variable::OutputDecl(std::ostream &out) const
 {
+	if (is_global()) {
+		out << "__gshared ";
+	}
 	output_qualified_type(out);
 	out << get_actual_name();
 }
