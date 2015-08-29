@@ -1,7 +1,8 @@
 -*- mode: Text -*-
 
-                  Csmith --- a random generator of C programs
-
+                Dsmith - a hack on top of Csmith to produce random D programs
+                  
+                        Thanks to original Csmith authors
               Xuejun Yang, Yang Chen, Eric Eide, and John Regehr
                   {jxyang,chenyang,eeide,regehr}@cs.utah.edu
 
