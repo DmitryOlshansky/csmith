@@ -250,7 +250,7 @@ CGOptions::set_default_settings(void)
 	math64(true);
 	inline_function(false);
 	math_notmp(false);
-	longlong(true);
+	longlong(false);
 	int8(true);
 	uint8(true);
 	enable_float(false);
@@ -267,7 +267,7 @@ CGOptions::set_default_settings(void)
 	volatile_pointers(false);
 	const_pointers(false);
 	consts(false);
-	dangling_global_ptrs(true);
+	dangling_global_ptrs(false);
 	divs(true);
 	muls(true);
 	accept_argc(true);
@@ -300,7 +300,7 @@ CGOptions::set_default_settings(void)
 	take_union_field_addr(true);
 	vol_struct_union_fields(true);
 	addr_taken_of_locals(true);
-	lang_cpp(false);
+	lang_cpp(true);
 
 	set_default_builtin_kinds();
 }

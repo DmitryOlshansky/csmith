@@ -60,6 +60,13 @@ std::string RandomHexDigits( int num )
 	return rnd->RandomHexDigits(num);
 }
 
+std::string RandomSignedHexDigits( int num )
+{
+	RandomNumber *rnd = RandomNumber::GetInstance();
+	return rnd->RandomSignedHexDigits(num);
+}
+
+
 std::string RandomDigits( int num )
 {
 	RandomNumber *rnd = RandomNumber::GetInstance();

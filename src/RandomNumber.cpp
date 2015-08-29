@@ -156,10 +156,19 @@ RandomNumber::RandomHexDigits(int num)
 }
 
 std::string
+RandomNumber::RandomSignedHexDigits(int num)
+{
+	return curr_generator_->RandomSignedHexDigits(num);
+}
+
+
+std::string
 RandomNumber::RandomDigits(int num)
 {
 	return curr_generator_->RandomDigits(num);
 }
+
+
 
 void
 RandomNumber::doFinalization()

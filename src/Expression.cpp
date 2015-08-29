@@ -226,7 +226,7 @@ Expression::make_random(CGContext &cg_context, const Type* type, const CVQualifi
 void
 Expression::check_and_set_cast(const Type* type)
 {
-	if(CGOptions::lang_cpp() && get_type().needs_cast(type)) {
+	if(get_type().needs_cast(type)) {
 		cast_type = type;
 	}
 }
@@ -234,9 +234,9 @@ Expression::check_and_set_cast(const Type* type)
 void
 Expression::output_cast(std::ostream& out) const
 {
-	if((CGOptions::ccomp() || CGOptions::lang_cpp()) && (cast_type != NULL)) {
-		out << "(";
-		cast_type->Output(out);
+	if(cast_type != NULL) {
+		out << "cast(";
+		cast_type->OutputShort(out);
 		out << ") ";
 	}
 }

@@ -38,6 +38,7 @@ class Filter;
 
 // Old stuff.
 std::string	RandomHexDigits(int num);
+std::string	RandomSignedHexDigits(int num);
 std::string	RandomDigits(int num);
 
 // New stuff.

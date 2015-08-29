@@ -97,10 +97,16 @@ static string
 GenerateRandomCharConstant(void)
 {
 	string ch;
-	if (CGOptions::ccomp() || !CGOptions::longlong())
-		ch = string("0x") + RandomHexDigits(2);
-	else
-		ch = string("0x") + RandomHexDigits(2) + "L";
+	ch = string("0x") + RandomSignedHexDigits(2);
+	return ch;
+}
+
+// --------------------------------------------------------------
+static string
+GenerateRandomUCharConstant(void)
+{
+	string ch;
+	ch = string("0x") + RandomHexDigits(2);
 	return ch;
 }
 
@@ -110,11 +116,17 @@ GenerateRandomIntConstant(void)
 {
 	string val;
 	// Int constant - Max 8 Hex digits on 32-bit platforms
-	if (CGOptions::ccomp() || !CGOptions::longlong())
-		val = "0x" + RandomHexDigits( 8 );
-	else
-		val = "0x" + RandomHexDigits( 8 ) + "L";
+	val = "0x" + RandomSignedHexDigits( 8 );
+	return val;
+}
 
+// --------------------------------------------------------------
+static string
+GenerateRandomUIntConstant(void)
+{
+	string val;
+	// Int constant - Max 8 Hex digits on 32-bit platforms
+	val = "0x" + RandomHexDigits( 8 );
 	return val;
 }
 
@@ -124,13 +136,20 @@ GenerateRandomShortConstant(void)
 {
 	string val;
 	// Short constant - Max 4 Hex digits on 32-bit platforms
-	if (CGOptions::ccomp() || !CGOptions::longlong())
-		val = "0x" + RandomHexDigits( 4 );
-	else
-		val = "0x" + RandomHexDigits( 4 ) + "L";
-
+	val = "0x" + RandomSignedHexDigits( 4 );
 	return val;
 }
+
+// --------------------------------------------------------------
+static string
+GenerateRandomUShortConstant(void)
+{
+	string val;
+	// Short constant - Max 4 Hex digits on 32-bit platforms
+	val = "0x" + RandomHexDigits( 4 );
+	return val;
+}
+
 
 // --------------------------------------------------------------
 static string
@@ -138,18 +157,35 @@ GenerateRandomLongConstant(void)
 {
 	string val;
 	// Long constant - Max 8 Hex digits on 32-bit platforms
-	if (!CGOptions::longlong())
-		val = "0x" + RandomHexDigits( 8 );
-	else
-		val = "0x" + RandomHexDigits( 8 ) + "L";
+	val = "0x" + RandomSignedHexDigits( 8 );
 	return val;
 }
 
 // --------------------------------------------------------------
 static string
+GenerateRandomULongConstant(void)
+{
+	string val;
+	// Long constant - Max 8 Hex digits on 32-bit platforms
+	val = "0x" + RandomHexDigits( 8 );
+	return val;
+}
+
+
+// --------------------------------------------------------------
+static string
 GenerateRandomLongLongConstant(void)
 {
-	// Long constant - Max 8 Hex digits on 32-bit platforms
+	// Long constant - Max 16 Hex digits on 32-bit platforms
+	string val = "0x" + RandomSignedHexDigits( 16 ) + "L";
+	return val;
+}
+
+// --------------------------------------------------------------
+static string
+GenerateRandomULongLongConstant(void)
+{
+	// Long constant - Max 16 Hex digits on 32-bit platforms
 	string val = "0x" + RandomHexDigits( 16 ) + "L";
 	return val;
 }
@@ -357,15 +393,9 @@ GenerateRandomConstant(const Type* type)
 				oss << num;
 				break;
 			}
-			if (type->simple_type == eFloat) {
-				v = oss.str();
-			}
-			else {
-				if (CGOptions::ccomp() || !CGOptions::longlong())
-					v = oss.str() + (type->is_signed() ? "" : "U");
-				else
-					v = oss.str() + (type->is_signed() ? "L" : "UL");
-			}
+			v = oss.str();
+			if(type->simple_type == eLongLong || type->simple_type == eULongLong)
+				v = oss.str() + "L";
 		} else {
 		    switch (st) {
 			case eVoid:      v = "/* void */";				break;
@@ -374,11 +404,11 @@ GenerateRandomConstant(const Type* type)
 			case eShort:     v = GenerateRandomShortConstant();		break;
 			case eLong:      v = GenerateRandomLongConstant();		break;
 			case eLongLong:  v = GenerateRandomLongLongConstant();		break;
-			case eUChar:     v = GenerateRandomCharConstant();		break;
-			case eUInt:      v = GenerateRandomIntConstant();		break;
-			case eUShort:    v = GenerateRandomShortConstant();		break;
-			case eULong:     v = GenerateRandomLongConstant();		break;
-			case eULongLong: v = GenerateRandomLongLongConstant();		break;
+			case eUChar:     v = GenerateRandomUCharConstant();		break;
+			case eUInt:      v = GenerateRandomUIntConstant();		break;
+			case eUShort:    v = GenerateRandomUShortConstant();		break;
+			case eULong:     v = GenerateRandomULongConstant();		break;
+			case eULongLong: v = GenerateRandomULongLongConstant();		break;
 			case eFloat:     v = GenerateRandomFloatHexConstant();		break;
 			// case eDouble:    v = GenerateRandomFloatConstant();		break;
 			default:

@@ -150,7 +150,7 @@ RandomParamName(void)
  * generate a new variable and store into AllVars
  */
 Variable *
-VariableSelector::new_variable(const std::string &name, const Type *type, const Expression* init, const CVQualifiers* qfer)
+VariableSelector::new_variable(const std::string &name, const Type *type, Expression* init, const CVQualifiers* qfer)
 {
 	Variable *var = Variable::CreateVariable(name, type, init, qfer);
 	ERROR_GUARD(NULL);
@@ -489,7 +489,7 @@ Variable *
 VariableSelector::create_and_initialize(Effect::Access access, const CGContext &cg_context, const Type* t,
 					const CVQualifiers* qfer, Block *blk, std::string name)
 {
-	const Expression* init = NULL;
+	Expression* init = NULL;
 	Variable* var = NULL;
 
 	if (rnd_flipcoin(NewArrayVariableProb)) {
@@ -554,7 +554,7 @@ VariableSelector::GenerateNewNonArrayGlobal(Effect::Access access, const CGConte
 	string name = RandomGlobalName();
 	tmp_count++;
 
-	const Expression *init = make_init_value(access, cg_context, t, qfer, NULL);
+	Expression *init = make_init_value(access, cg_context, t, qfer, NULL);
 	ERROR_GUARD(NULL);
 	Variable *var = new_variable(name, t, init, qfer);
 
@@ -1283,7 +1283,7 @@ VariableSelector::select_deref_pointer(Effect::Access access, const CGContext &c
  */
 ArrayVariable*
 VariableSelector::create_array_and_itemize(Block* blk, string name, const CGContext& cg_context,
-		const Type* t, const Expression* init, const CVQualifiers* qfer)
+		const Type* t, Expression* init, const CVQualifiers* qfer)
 {
 	ArrayVariable* av = ArrayVariable::CreateArrayVariable(cg_context, blk, name, t, init, qfer, NULL);
 	ERROR_GUARD(NULL);
@@ -1538,6 +1538,7 @@ OutputGlobalVariables(std::ostream &out)
 	CGOptions::access_once(false);
 	OutputVariableList(vars, out);
 	CGOptions::access_once(access_once);
+	//exit(1);
 }
 
 void

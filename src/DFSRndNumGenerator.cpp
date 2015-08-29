@@ -487,6 +487,13 @@ DFSRndNumGenerator::RandomHexDigits( int num )
 }
 
 std::string
+DFSRndNumGenerator::RandomSignedHexDigits( int num )
+{
+	return AbsRndNumGenerator::RandomSignedHexDigits(num);
+}
+
+
+std::string
 DFSRndNumGenerator::RandomDigits( int num )
 {
 	return AbsRndNumGenerator::RandomDigits(num);

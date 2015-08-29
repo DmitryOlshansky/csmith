@@ -43,7 +43,7 @@ using namespace std;
 class ArrayVariable : public Variable
 {
 public:
-	static ArrayVariable* CreateArrayVariable(const CGContext& cg_context, Block* blk, const std::string &name, const Type *type, const Expression* init, const CVQualifiers* qfer, const Variable* isFieldVarOf);
+	static ArrayVariable* CreateArrayVariable(const CGContext& cg_context, Block* blk, const std::string &name, const Type *type, Expression* init, const CVQualifiers* qfer, const Variable* isFieldVarOf);
 	ArrayVariable(const ArrayVariable& av);
 	virtual ~ArrayVariable(void);
 
@@ -77,7 +77,7 @@ public:
 	virtual void OutputUpperBound(std::ostream &) const;
 	void output_with_indices(std::ostream &out, const std::vector<const Variable*>& cvs) const;
 	void output_checksum_with_indices(std::ostream &out, const std::vector<const Variable*>& cvs, string field_name) const;
-	void output_init(std::ostream &out, const Expression* init, const vector<const Variable*>& cvs, int indent) const;
+	void output_init(std::ostream &out, Expression* init, const vector<const Variable*>& cvs, int indent) const;
 	void output_addr_checks(std::ostream &out, const Variable* var, string field_name, int indent) const;
 	void add_init_value(const Expression* e) { init_values.push_back(e);}
 	const vector<const Expression*>& get_init_values(void) const { return init_values;}
@@ -87,7 +87,7 @@ public:
 	const ArrayVariable* collective;
 	Block* parent;
 private:
-	ArrayVariable(Block* blk, const std::string &name, const Type *type, const Expression* init, const CVQualifiers* qfer, const vector<unsigned int>& sizes, const Variable* isFieldVarOf);
+	ArrayVariable(Block* blk, const std::string &name, const Type *type, Expression* init, const CVQualifiers* qfer, const vector<unsigned int>& sizes, const Variable* isFieldVarOf);
 
 
 	const std::vector<unsigned int> sizes;

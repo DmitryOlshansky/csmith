@@ -138,6 +138,20 @@ AbsRndNumGenerator::RandomHexDigits( int num )
 }
 
 std::string
+AbsRndNumGenerator::RandomSignedHexDigits( int num )
+{
+	std::string str;
+	num--;
+	str += hex1[genrand()%8];
+	while ( num-- )
+	{
+		str += hex1[genrand()%16];
+	}
+
+	return str;
+}
+
+std::string
 AbsRndNumGenerator::RandomDigits( int num )
 {
 	std::string str;

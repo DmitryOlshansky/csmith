@@ -404,7 +404,7 @@ Variable::CreateVariable(const std::string &name, const Type *type,
 }
 
 Variable *
-Variable::CreateVariable(const std::string &name, const Type *type, const Expression* init, const CVQualifiers* qfer)
+Variable::CreateVariable(const std::string &name, const Type *type, Expression* init, const CVQualifiers* qfer)
 {
 	assert(type);
 	if (type->eType == eSimple)
@@ -437,7 +437,7 @@ Variable::Variable(const std::string &name, const Type *type,
 /*
  *
  */
-Variable::Variable(const std::string &name, const Type *type, const Expression* init, const CVQualifiers* qfer)
+Variable::Variable(const std::string &name, const Type *type, Expression* init, const CVQualifiers* qfer)
 	: name(name), type(type),
 	  init(init),
 	  isAuto(false), isStatic(false), isRegister(false), isBitfield_(false),
@@ -448,7 +448,7 @@ Variable::Variable(const std::string &name, const Type *type, const Expression* 
 	// nothing else to do
 }
 
-Variable::Variable(const std::string &name, const Type *type, const Expression* init, const CVQualifiers* qfer, const Variable* isFieldVarOf, bool isArray)
+Variable::Variable(const std::string &name, const Type *type, Expression* init, const CVQualifiers* qfer, const Variable* isFieldVarOf, bool isArray)
 	: name(name), type(type),
 	  init(init),
 	  isAuto(false), isStatic(false), isRegister(false), isBitfield_(false),
@@ -780,6 +780,7 @@ Variable::OutputDef(std::ostream &out, int indent) const
 	output_qualified_type_var(out);
 	out << get_actual_name() << " = ";
 	assert(init);
+	init->check_and_set_cast(this->type);
 	init->Output(out);
 	out << ";";
 	if (is_volatile()) {
@@ -795,7 +796,7 @@ void Variable::OutputDecl(std::ostream &out) const
 	if (is_global()) {
 		out << "__gshared ";
 	}
-	output_qualified_type(out);
+	output_qualified_type_var(out);
 	out << get_actual_name();
 }
 

@@ -1459,10 +1459,64 @@ Type::is_equivalent(const Type* t) const
 	return false;
 }
 
+static eSimpleType int_bucket_table[] = {
+ 	eChar,
+ 	eShort,
+ 	eInt,
+	eLong,
+	eLongLong,
+	eUChar,
+	eUShort,
+	eUInt,
+	eULong,
+	eULongLong
+};
+
+static unsigned int_size_table[] = {
+ 	1,
+ 	2,
+ 	4,
+	4,
+	8,
+	1,
+	2,
+	4,
+	4,
+	8
+};
+
+template<int sz, class T>
+int indexOf(T (&arr)[sz], T val)
+{
+	for(int i=0; i<sz; i++){
+		if(arr[i] == val)
+			return i;
+	}
+	return -1;
+}
+
+
 bool
 Type::needs_cast(const Type* t) const
 {
-	return (eType == ePointer) && !get_base_type()->is_equivalent(t->get_base_type());
+	bool ptr_cast = (eType == ePointer) && !get_base_type()->is_equivalent(t->get_base_type());
+	bool ret = ptr_cast;
+	/*cerr << "CAST TYPES: ";
+	this->Output(cerr);
+	cerr << " -> ";
+	t->Output(cerr);*/
+	if(eType == eSimple && t->eType == eSimple){
+		
+		int idx1 = indexOf(int_bucket_table, simple_type);
+		int idx2 = indexOf(int_bucket_table, t->simple_type);
+		if(idx1 >= 0 && idx2 >= 0)
+		{
+			unsigned sz1 = int_size_table[idx1], sz2 = int_size_table[idx2];
+			ret = ret || sz1 > sz2;
+		}
+	}
+	// cerr << (ret ? " yes" : "  no") << endl;
+	return ret;
 }
 
 bool
@@ -1686,7 +1740,7 @@ Type::OutputShort(std::ostream &out) const
 			out << "_t";
 		} 
 		break;
-	case ePointer:   ptr_type->Output( out ); out << "*"; break;
+	case ePointer:   ptr_type->OutputShort( out ); out << "*"; break;
 	case eUnion:     out << "U" << sid; break;
 	case eStruct:    out << "S" << sid; break;
 	}

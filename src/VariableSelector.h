@@ -61,7 +61,7 @@ class VariableSelector
 	friend class ArrayVariable;
 public:
 	VariableSelector(void) {};
-	static Variable* new_variable(const std::string &name, const Type *type, const Expression* init, const CVQualifiers* qfer);
+	static Variable* new_variable(const std::string &name, const Type *type, Expression* init, const CVQualifiers* qfer);
 	// ISSUE: use it only when you want to create a static variable
 	static Variable *make_dummy_static_variable(const string &name);
 
@@ -106,7 +106,7 @@ public:
 	static const Variable* find_var_by_name(string name);
 
 private:
-	static ArrayVariable* create_array_and_itemize(Block* blk, string name, const CGContext& cg_context, const Type* t, const Expression* init, const CVQualifiers* qfer);
+	static ArrayVariable* create_array_and_itemize(Block* blk, string name, const CGContext& cg_context, const Type* t, Expression* init, const CVQualifiers* qfer);
 
 	static ArrayVariable* create_random_array(const CGContext& cg_context);
 

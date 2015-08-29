@@ -59,6 +59,8 @@ public:
 
 	virtual std::string RandomHexDigits( int num );
 
+	virtual std::string RandomSignedHexDigits( int num );
+
 	virtual std::string RandomDigits( int num );
 
 	virtual enum RNDNUM_GENERATOR kind() { return rDFSRndNumGenerator; }

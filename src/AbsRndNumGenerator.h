@@ -70,7 +70,8 @@ public:
 
 	virtual bool rnd_flipcoin(const unsigned int p, const Filter *f = NULL, const std::string *where = NULL) = 0;
 
-	virtual std::string RandomHexDigits( int num ) = 0;
+	virtual std::string RandomHexDigits( int num ) ;
+	virtual std::string RandomSignedHexDigits( int num );
 
 	virtual std::string RandomDigits( int num ) = 0;
 

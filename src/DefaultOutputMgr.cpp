@@ -120,7 +120,7 @@ DefaultOutputMgr::OutputGlobals()
 
 	string prefix = "extern ";
 	OutputGlobalVariablesDecls(ofile, prefix);
-
+	
 	OutputStructUnionDeclarations(ofile);
 	ofile << "#endif" << std::endl;
 	ofile.close();

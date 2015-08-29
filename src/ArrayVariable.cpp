@@ -124,7 +124,7 @@ static const Variable* find_expr_key_var(const Expression* e)
 
 //=======================================================================================
 ArrayVariable *
-ArrayVariable::CreateArrayVariable(const CGContext& cg_context, Block* blk, const std::string &name, const Type *type, const Expression* init, const CVQualifiers* qfer, const Variable* isFieldVarOf)
+ArrayVariable::CreateArrayVariable(const CGContext& cg_context, Block* blk, const std::string &name, const Type *type, Expression* init, const CVQualifiers* qfer, const Variable* isFieldVarOf)
 {
 	assert(type);
 	if (type->eType == eSimple)
@@ -191,7 +191,7 @@ ArrayVariable::CreateArrayVariable(const CGContext& cg_context, Block* blk, cons
 /*
  *
  */
-ArrayVariable::ArrayVariable(Block* blk, const std::string &name, const Type *type, const Expression* init, const CVQualifiers* qfer, const vector<unsigned int>& sizes, const Variable* isFieldVarOf)
+ArrayVariable::ArrayVariable(Block* blk, const std::string &name, const Type *type, Expression* init, const CVQualifiers* qfer, const vector<unsigned int>& sizes, const Variable* isFieldVarOf)
 	: Variable(name, type, init, qfer, isFieldVarOf, true),
 	  collective(NULL),
 	  parent(blk),
@@ -653,7 +653,7 @@ ArrayVariable::output_checksum_with_indices(std::ostream &out,
 
 // --------------------------------------------------------------
 void
-ArrayVariable::output_init(std::ostream &out, const Expression* init, const vector<const Variable*>& cvs, int indent) const
+ArrayVariable::output_init(std::ostream &out, Expression* init, const vector<const Variable*>& cvs, int indent) const
 {
 	if (collective != 0) return;
 	size_t i;

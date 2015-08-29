@@ -283,7 +283,7 @@ OutputMgr::OutputHeader(int argc, char *argv[], unsigned long seed)
 
 	if (!CGOptions::longlong()) {
 		out << endl;
-		out << "#define NO_LONGLONG" << std::endl;
+		out << "// NO_LONGLONG" << std::endl;
 		out << endl;
 	}
 	if (CGOptions::enable_float()) {

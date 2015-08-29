@@ -64,7 +64,7 @@ class Variable
 	friend class VariableSelector;
 	friend class ArrayVariable;
 public:
-	static Variable *CreateVariable(const std::string &name, const Type *type, const Expression* init, const CVQualifiers* qfer);
+	static Variable *CreateVariable(const std::string &name, const Type *type, Expression* init, const CVQualifiers* qfer);
 	static Variable *CreateVariable(const std::string &name, const Type *type,
 			 bool isConst, bool isVolatile,
 			 bool isAuto, bool isStatic, bool isRegister, bool isBitfield, const Variable* isFieldVarOf);
@@ -144,7 +144,7 @@ public:
 	vector<Variable *> field_vars;    // field variables for struct/unions
 	const std::string name;
 	const Type *type;
-	const Expression *init;
+	Expression *init;
 
 	// Storage-class specifiers.
 	const bool isAuto;
@@ -163,8 +163,8 @@ public:
 	static const char sink_var_name[];
 
 private:
-	Variable(const std::string &name, const Type *type, const Expression* init, const CVQualifiers* qfer);
-	Variable(const std::string &name, const Type *type, const Expression* init, const CVQualifiers* qfer, const Variable* isFieldVarOf, bool isArray);
+	Variable(const std::string &name, const Type *type, Expression* init, const CVQualifiers* qfer);
+	Variable(const std::string &name, const Type *type, Expression* init, const CVQualifiers* qfer, const Variable* isFieldVarOf, bool isArray);
 	Variable(const std::string &name, const Type *type,
 			 const vector<bool>& isConsts, const vector<bool>& isVolatiles,
 			 bool isAuto, bool isStatic, bool isRegister, bool isBitfield, const Variable* isFieldVarOf);
