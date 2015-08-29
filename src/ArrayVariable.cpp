@@ -549,7 +549,7 @@ ArrayVariable::OutputDef(std::ostream &out, int indent) const
 
 void ArrayVariable::OutputDecl(std::ostream &out) const
 {
-	output_qualified_type(out);
+	output_qualified_type_var(out);
 	size_t i;
 	for (i=0; i<sizes.size(); i++) {
 		out << "[" << sizes[sizes.size()-1-i] << "]";

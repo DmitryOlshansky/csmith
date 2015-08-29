@@ -258,7 +258,7 @@ Block::OutputTmpVariableList(std::ostream &out, int indent) const
 		std::string name = (*i).first;
 		enum eSimpleType type = (*i).second;
 		output_tab(out, indent);
-		Type::get_simple_type(type).Output(out);
+		Type::get_simple_type(type).OutputShort(out);
 		out << " " << name << " = 0;" << std::endl;
 	}
 }
@@ -297,7 +297,6 @@ Block::Output(std::ostream &out, FactMgr* fm, int indent) const
 	indent++;
 	if (CGOptions::math_notmp())
 		OutputTmpVariableList(out, indent);
-
 	OutputVariableList(local_vars, out, indent);
 	OutputStatementList(stms, out, fm, indent);
 

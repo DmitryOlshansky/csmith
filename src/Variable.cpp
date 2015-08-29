@@ -783,12 +783,7 @@ Variable::OutputDef(std::ostream &out, int indent) const
 	init->check_and_set_cast(this->type);
 	init->Output(out);
 	out << ";";
-	if (is_volatile()) {
-		string comment = "VOLATILE GLOBAL " + get_actual_name();
-		output_comment_line(out, comment);
-	} else {
-		outputln(out);
-	}
+	outputln(out);
 }
 
 void Variable::OutputDecl(std::ostream &out) const
@@ -1034,6 +1029,7 @@ void
 OutputVariableList(const vector<Variable*> &vars, std::ostream &out, int indent)
 {
 	size_t i;
+
 	// have to use iterator instead of map because we need indent as paramter
 	for (i=0; i<vars.size(); i++) {
 		vars[i]->OutputDef(out, indent);

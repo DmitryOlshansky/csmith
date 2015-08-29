@@ -247,7 +247,7 @@ CGOptions::set_default_settings(void)
 	sequence_name_prefix(false);
 	compatible_check(false);
 	compound_assignment(false);
-	math64(true);
+	math64(false);
 	inline_function(false);
 	math_notmp(false);
 	longlong(false);
@@ -296,12 +296,12 @@ CGOptions::set_default_settings(void)
 	post_decr_operator(true);
 	unary_plus_operator(true);
 	use_embedded_assigns(true);
-	use_comma_exprs(true);
+	use_comma_exprs(false);
 	take_union_field_addr(true);
 	vol_struct_union_fields(true);
 	addr_taken_of_locals(true);
 	lang_cpp(true);
-
+	fresh_array_ctrl_var_names(true);
 	set_default_builtin_kinds();
 }
 
