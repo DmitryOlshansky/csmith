@@ -256,7 +256,7 @@ StatementArrayOp::Output(std::ostream &out, FactMgr* fm, int indent) const
 		// cannot assign array members to a struct/union constant directly, has to create a "fake" struct var first
 		if (init_value->term_type == eConstant && array_var->is_aggregate()) {
 			output_tab(out, indent+1);
-			array_var->type->Output(out);
+			array_var->type->OutputShort(out);
 			out << " tmp = ";
 			init_value->Output(out);
 			out << ";";
