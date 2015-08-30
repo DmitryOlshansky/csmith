@@ -179,7 +179,7 @@ auto safe_add_func_s_s(T, L, R)(auto ref L _si1, auto ref R _si2){
 auto safe_sub_func_s_s(T,L,R)(auto ref L _si1, auto ref R _si2){
     T zero = 0;
     T si1 = cast(T)_si1; T si2 = cast(T)_si2;
-    ((si1^si2) & (((si1 ^ ((si1^si2) & ((cast(T)1) << (T.sizeof*8-1))))-si2)^si2)) < zero
+    return ((si1^si2) & (((si1 ^ ((si1^si2) & ((cast(T)1) << (T.sizeof*8-1))))-si2)^si2)) < zero
     ? si1: (si1 - si2);
 }
 
@@ -201,6 +201,7 @@ auto safe_mod_func_s_s(T,L,R)(auto ref L _si1, auto ref R _si2){
 }
 
 auto safe_div_func_s_s(T,L,R)(auto ref L _si1, auto ref R _si2){
+  T zero = 0;
   T si1 = cast(T)_si1; T si2 = cast(T)_si2;
   return (si2 == zero || (si1 == T.min && si2 == cast(T)-1))
   ? si1 : si1 / si2;
@@ -232,4 +233,57 @@ auto safe_rshift_func_s_u(T,L,R)(auto ref L _left, auto ref R _right){
   T left = cast(T)_left; uint right = cast(uint)_right;
   return left < zero || (right >= T.sizeof*8)
     ? left : (left >> right);
+}
+
+
+auto safe_unary_minus_func_u(T,L)(auto ref L _ui)
+{
+  T ui = cast(T) _ui;
+  return -ui;
+}
+
+auto safe_add_func_u_u(T,L,R)(auto ref L _ui1, auto ref R _ui2){
+  T ui1 = cast(T)_ui1; T ui2 = cast(T)_ui2;
+  return ui1 + ui2;
+}
+auto safe_sub_func_u_u(T,L,R)(auto ref L _ui1, auto ref R _ui2){
+  T ui1 = cast(T)_ui1; T ui2 = cast(T)_ui2 ;
+  return ui1 - ui2;
+}
+
+auto safe_mul_func_u_u(T,L,R)(auto ref L _ui1, auto ref R _ui2){
+  T ui1 = cast(T)_ui1; T ui2 = cast(T)_ui2 ; 
+  return cast(uint)ui1 * cast(uint)ui2;
+}
+
+auto safe_mod_func_u_u(T,L,R)(auto ref L _ui1, auto ref R _ui2){
+  T ui1 = cast(T)_ui1; T ui2 = cast(T)_ui2;
+  return (ui2 == 0) ? ui1 : (ui1 % ui2);
+}
+
+auto safe_div_func_u_u(T,L,R)(auto ref L _ui1, auto ref R _ui2){
+  T ui1 = cast(T)_ui1; T ui2 = cast(T)_ui2 ;
+  return ui2 == 0 ? ui1 : (ui1 / ui2);
+}
+
+auto safe_lshift_func_u_s(T,L,R)(auto ref L _left, auto ref R _right){
+  T left = cast(T)_left; int right = cast(int)_right;
+  return ((right < 0) || (right >= T.sizeof*8) || (left > ((T.max) >> right)))
+      ? left : (left << right);
+}
+
+auto safe_lshift_func_u_u(T,L,R)(auto ref L _left, auto ref R _right){
+  T left = cast(T)_left; uint right = cast(uint)_right;
+  return ((right >= T.sizeof*8) || (left > ((T.max) >> right)))
+      ? left : (left << right);
+}
+auto safe_rshift_func_u_s(T,L,R)(auto ref L _left, auto ref R _right){
+  T left = cast(T)_left; int right = cast(int)_right;
+  return ((right < 0) || (right >= T.sizeof*8)) 
+      ? left : (left >> right);
+}
+auto safe_rshift_func_u_u(T,L,R)(auto ref L _left, auto ref R _right){
+  T left = cast(T)_left; uint right = cast(uint)_right;
+  return (right >= T.sizeof*8)
+       ? left : (left >> right);
 }
