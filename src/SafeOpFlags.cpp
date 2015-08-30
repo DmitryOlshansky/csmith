@@ -244,21 +244,18 @@ SafeOpFlags::clone() const
 void
 SafeOpFlags::OutputSize(std::ostream &out) const
 {
-	if(!op1_)
-		out << "u";
-
 	switch(op_size_) {
 	case sInt8:
-		out << "int8_t";
+		out << "!int8_t";
 		break;
 	case sInt16:
-		out << "int16_t";
+		out << "!int16_t";
 		break;
 	case sInt32:
-		out << "int32_t";
+		out << "!int32_t";
 		break;
 	case sInt64:
-		out << "int64_t";
+		out << "!int64_t";
 		break;
 	default:
 		assert(!"invalid size!");
@@ -269,8 +266,7 @@ SafeOpFlags::OutputSize(std::ostream &out) const
 void
 SafeOpFlags::OutputFuncOrMacro(std::ostream &out) const
 {
-	is_func_ ? (out << "func_")
-		: (out << "macro_");
+	out << "func";
 }
 
 void
@@ -332,9 +328,9 @@ SafeOpFlags::to_string(enum eBinaryOps op) const
 	}
 	ostringstream oss;
 	OutputFuncOrMacro(oss);
-	OutputSize(oss);
 	OutputOp1(oss);
 	(op == eLShift || op == eRShift) ? OutputOp2(oss) : OutputOp1(oss);
+	OutputSize(oss);
 	s += oss.str();
 	return s;
 }
@@ -351,8 +347,8 @@ SafeOpFlags::to_string(enum eUnaryOps op) const
 	}
 	ostringstream oss;
 	OutputFuncOrMacro(oss);
-	OutputSize(oss);
 	OutputOp1(oss);
+	OutputSize(oss);
 	s += oss.str();
 	return s;
 }

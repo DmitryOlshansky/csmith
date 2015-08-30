@@ -249,7 +249,7 @@ CGOptions::set_default_settings(void)
 	compound_assignment(false);
 	math64(false);
 	inline_function(false);
-	math_notmp(true);
+	math_notmp(false);
 	longlong(false);
 	int8(true);
 	uint8(true);
