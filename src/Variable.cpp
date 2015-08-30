@@ -775,9 +775,24 @@ Variable::OutputDef(std::ostream &out, int indent) const
 {
 	output_tab(out, indent);
 	if (is_global()) {
-		out << "__gshared ";
+		out << "";
 	}
 	output_qualified_type_var(out);
+	out << get_actual_name() << " = ";
+	assert(init);
+	init->check_and_set_cast(this->type);
+	init->Output(out);
+	out << ";";
+	outputln(out);
+}
+
+void
+Variable::OutputAssign(std::ostream &out, int indent) const
+{
+	output_tab(out, indent);
+	if (is_global()) {
+		out << "";
+	}
 	out << get_actual_name() << " = ";
 	assert(init);
 	init->check_and_set_cast(this->type);
@@ -789,7 +804,7 @@ Variable::OutputDef(std::ostream &out, int indent) const
 void Variable::OutputDecl(std::ostream &out) const
 {
 	if (is_global()) {
-		out << "__gshared ";
+		out << "";
 	}
 	output_qualified_type_var(out);
 	out << get_actual_name();

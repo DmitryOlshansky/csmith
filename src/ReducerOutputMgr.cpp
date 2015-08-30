@@ -221,7 +221,7 @@ int
 ReducerOutputMgr::output_func_header(const Function* f, std::ostream& out)
 {
 	// output function header
-	out << "static ";
+	out << "";
 	f->rv->qfer.output_qualified_type(f->return_type, out);
 	out << " " << f->name << "(";
 	size_t i;

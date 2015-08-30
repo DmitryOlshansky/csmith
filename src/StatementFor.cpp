@@ -374,7 +374,6 @@ void
 StatementFor::output_header(std::ostream& out, int indent) const
 {
 	output_tab(out, indent);
-	out << "//THIS?" << endl;
 	out << "for (";
 	init.OutputAsExpr(out);
 	out << "; ";

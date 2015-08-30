@@ -129,7 +129,7 @@ CoverageTestExtension::OutputFirstFunInvocation(std::ostream &out, FunctionInvoc
 void
 CoverageTestExtension::OutputInit(std::ostream &out)
 {
-	out << "int main(void)" << endl;
+	out << "int main()" << endl;
 	out << "{" << endl;
 	output_decls(out);
 	//output_array_init(out);

@@ -122,6 +122,7 @@ public:
 	///////////////////////////////////////////////////////////////////////
 
 	virtual void Output(std::ostream &) const;
+	void OutputAssign(std::ostream &, int indent) const;
 	int output_runtime_value(ostream &out, string prefix, string suffix, int indent, bool multi_lines=false) const;
 	int output_addressable_name(ostream &out, int indent) const;
 	int output_volatile_address(ostream &out, int indent, const string &fp_string, vector<string> &seen_names) const;

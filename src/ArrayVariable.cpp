@@ -532,7 +532,7 @@ ArrayVariable::OutputDef(std::ostream &out, int indent) const
 
 			// force global variables to be static if necessary
 			if (CGOptions::force_globals_static() && is_global()) {
-				out << "__gshared ";
+				out << " ";
 			}
 
 			// print type, name, and dimensions

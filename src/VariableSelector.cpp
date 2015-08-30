@@ -34,6 +34,7 @@
 #include "VariableSelector.h"
 #include <cassert>
 #include <map>
+#include <set>
 
 #include "Common.h"
 #include "Block.h"
@@ -1531,14 +1532,28 @@ VariableSelector::doFinalization(void)
 void
 OutputGlobalVariables(std::ostream &out)
 {
-	output_comment_line(out, "--- GLOBAL VARIABLES ---");
+	output_comment_line(out, "---! GLOBAL VARIABLES !---");
 	vector<Variable *>& vars = *(VariableSelector::GetGlobalVariables());
 	bool access_once = CGOptions::access_once();
-
+	set<string> used; // TODO: hackish ... need to understand what the hell is going on
 	CGOptions::access_once(false);
-	OutputVariableList(vars, out);
+	for (size_t i=0; i<vars.size(); i++) {
+		if(used.find(vars[i]->get_actual_name()) == used.end()){
+			vars[i]->OutputDecl(out);
+			out << ";" << endl;
+			used.insert(vars[i]->get_actual_name());
+		}
+	}
+	used.clear();
+	out << endl << "shared static this(){" << endl;
+	for (size_t i=0; i<vars.size(); i++) {
+		if(used.find(vars[i]->get_actual_name()) == used.end()){
+			vars[i]->OutputAssign(out, 1);
+			used.insert(vars[i]->get_actual_name());
+		}
+	}
+	out << "}" << endl;
 	CGOptions::access_once(access_once);
-	//exit(1);
 }
 
 void
